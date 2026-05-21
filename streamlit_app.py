@@ -6,7 +6,7 @@ from playwright.async_api import async_playwright
 # --- 1. SUBSCRIPTION AUTH LOGIC ---
 # For a 5-hour launch, manually add keys here as people buy them.
 # Example: "MAPS-PRO-9912"
-ACTIVE_LICENSE_KEYS = ["ADMIN-TEST", "GUEST-BETA-2026", "USER-XP-92"]
+ACTIVE_LICENSE_KEYS = ["USER/20261", "USER/20262","USER/20263","USER/20264","USER/20265","USER/20266", "GUEST-BETA-2026", "USER-XP-92"]
 
 st.set_page_config(page_title="MapsLead Pro SaaS", page_icon="🚀", layout="wide")
 
