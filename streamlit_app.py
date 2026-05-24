@@ -9,7 +9,7 @@ ACTIVE_LICENSE_KEYS = ["USER/1350", "USER/1111", "GUEST-BETA-2026", "USER-XP-92"
 # 🚀 SERPAPI PRODUCTION KEY SECURED 🚀
 SERPAPI_KEY = "af2f12a9f066711da202a77a9d3a508b79353f8d3ead259902cbcf51d69279b9" 
 
-st.set_page_config(page_title="MapsLead Pro AI", page_icon="🚀", layout="wide")
+st.set_page_config(page_title="MapsLead Pro", page_icon="🚀", layout="wide")
 
 # --- 2. SIDEBAR INTERFACE ---
 st.sidebar.title("🔑 Membership")
@@ -23,7 +23,7 @@ if user_key not in ACTIVE_LICENSE_KEYS:
 
 # --- 3. THE APP CONTENT ---
 st.sidebar.success("License Active: Monthly Pro")
-st.title("🚀 MapsLead Pro: AI Competitor Intel Hub")
+st.title("MapsLead : Competitor Intel Hub")
 st.markdown("---")
 
 col1, col2 = st.columns([1, 2])
