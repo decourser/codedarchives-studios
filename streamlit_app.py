@@ -9,7 +9,7 @@ ACTIVE_LICENSE_KEYS = ["USER/1350", "USER/1111", "GUEST-BETA-2026", "USER-XP-92"
 # 🚀 SERPAPI PRODUCTION KEY SECURED 🚀
 SERPAPI_KEY = "af2f12a9f066711da202a77a9d3a508b79353f8d3ead259902cbcf51d69279b9" 
 
-st.set_page_config(page_title="MapsLead Pro", page_icon="🚀", layout="wide")
+st.set_page_config(page_title="MapsLead ", page_icon="🚀", layout="wide")
 
 # --- 2. SIDEBAR INTERFACE ---
 st.sidebar.title("🔑 Membership")
@@ -22,8 +22,8 @@ if user_key not in ACTIVE_LICENSE_KEYS:
     st.stop()
 
 # --- 3. THE APP CONTENT ---
-st.sidebar.success("License Active: Monthly Pro")
-st.title("MapsLead : Competitor Intel Hub")
+st.sidebar.success("License Active: Monthly Access")
+st.title(" MapsLead : Competitor Intel Hub")
 st.markdown("---")
 
 col1, col2 = st.columns([1, 2])
@@ -85,12 +85,12 @@ def generate_ai_strategy(competitor, niche, location):
 
 # --- 6. EXECUTION & DISPLAY ---
 with col2:
-    st.header("Market Analysis & AI Battle Plans")
+    st.header("Market Analysis & strategical Plans")
     if st.button("Analyze Market & Generate Battle Plan"):
         if not target_niche or not target_location:
             st.error("Please fill in both fields.")
         else:
-            with st.spinner(f"Querying Google Maps live indexes for authentic data..."):
+            with st.spinner(f"Querying indexes for authentic data..."):
                 
                 results_df = fetch_real_google_maps_data(search_query)
                 
@@ -112,11 +112,11 @@ with col2:
                     st.markdown(f"### 🔍 Why they should be targeted fast:")
                     st.write(ai_plan["why"])
                     
-                    st.markdown(f"### ⚔️ AI Action Plan to Capture Sales:")
+                    st.markdown(f"### Action Plan to Capture Sales:")
                     st.info(ai_plan["move"])
                     
                     # Download
                     csv = results_df.to_csv(index=False).encode('utf-8')
                     st.download_button("📥 Download Competitor List", csv, f"competitors_{target_niche}.csv", "text/csv")
                 else:
-                    st.error("No data fetched. Double-check your API key configuration or try a simpler search term.")
+                    st.error("No data fetched. Double-check your key or try a simpler search term.")
