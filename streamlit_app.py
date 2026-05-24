@@ -1,11 +1,13 @@
 import streamlit as st
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
 import random
 
 # --- 1. SUBSCRIPTION AUTH LOGIC ---
 ACTIVE_LICENSE_KEYS = ["USER/1350", "USER/1111", "GUEST-BETA-2026", "USER-XP-92"]
+
+# 🚀 SERPAPI PRODUCTION KEY SECURED 🚀
+SERPAPI_KEY = "af2f12a9f066711da202a77a9d3a508b79353f8d3ead259902cbcf51d69279b9" 
 
 st.set_page_config(page_title="MapsLead Pro AI", page_icon="🚀", layout="wide")
 
@@ -33,39 +35,38 @@ with col1:
     
     search_query = f"{target_niche} in {target_location}"
 
-# --- 4. TRUE GOOGLE DATA SCRAPER ENGINE (VIA FREE PROXY GATEWAY) ---
-def fetch_genuine_google_data(query):
-    # Free, open proxy gateway to strip Google's cloud scrapers blocks/captchas
-    base_url = f"https://www.google.com/search?q={query.replace(' ', '+')}"
-    proxy_url = f"https://api.allorigins.win/get?url={requests.utils.quote(base_url)}"
+# --- 4. REAL GOOGLE MAPS API ENGINE ---
+def fetch_real_google_maps_data(query):
+    url = "https://serpapi.com/search.json"
+    params = {
+        "engine": "google_maps",
+        "q": query,
+        "type": "search",
+        "api_key": SERPAPI_KEY
+    }
     
     try:
-        response = requests.get(proxy_url, timeout=15)
-        if response.status_code != 200:
-            return pd.DataFrame()
-            
-        payload = response.json()
-        html_content = payload.get("contents", "")
+        response = requests.get(url, params=params, timeout=15)
+        data = response.json()
         
-        soup = BeautifulSoup(html_content, "html.parser")
+        # Parse real local map results returned by Google Maps
+        local_results = data.get("local_results", [])
+        
         leads = []
-        
         market_presences = ["Dominant", "Established", "Vulnerable"]
         vulnerabilities = ["High", "Medium", "Low"]
         
-        # Parse genuine search headers returning live local indexing units
-        for s in soup.find_all('h3'):
-            name = s.get_text()
-            # Clean out non-business informational results
-            if name and len(name) < 55 and not any(x in name.lower() for x in ["map", "google", "news", "books", "yep"]):
+        for place in local_results[:10]:
+            name = place.get("title")
+            if name:
                 leads.append({
                     "Business Name": name,
                     "Market Presence": random.choice(market_presences),
                     "Est. Vulnerability": random.choice(vulnerabilities)
                 })
                 
-        return pd.DataFrame(leads).drop_duplicates().head(10)
-    except:
+        return pd.DataFrame(leads)
+    except Exception as e:
         return pd.DataFrame()
 
 # --- 5. THE AI COMPETITOR STRATEGIST ---
@@ -77,7 +78,7 @@ def generate_ai_strategy(competitor, niche, location):
         },
         {
             "why": f"{competitor} maintains an organic local footprint but displays an unmanaged client communication footprint with unreplied online ratings.",
-            "move": "Launch an automated review campaign to out-velocity their current position. Steady public social proof signals will outpace their baseline standing on the maps engine within 30 days."
+            "move": f"Launch an automated review campaign in {location} to out-velocity their current position. Steady public social proof signals will outpace their baseline standing on the maps engine within 30 days."
         }
     ]
     return random.choice(strategies)
@@ -89,9 +90,9 @@ with col2:
         if not target_niche or not target_location:
             st.error("Please fill in both fields.")
         else:
-            with st.spinner(f"Querying live live registries for authentic {target_niche} data in {target_location}..."):
+            with st.spinner(f"Querying Google Maps live indexes for authentic data..."):
                 
-                results_df = fetch_genuine_google_data(search_query)
+                results_df = fetch_real_google_maps_data(search_query)
                 
                 if not results_df.empty:
                     st.success(f"Successfully mapped out {len(results_df)} verified local competitors!")
@@ -118,4 +119,4 @@ with col2:
                     csv = results_df.to_csv(index=False).encode('utf-8')
                     st.download_button("📥 Download Competitor List", csv, f"competitors_{target_niche}.csv", "text/csv")
                 else:
-                    st.error("The secure network layer timed out while reaching the local indexes. Please trigger the execution check again.")
+                    st.error("No data fetched. Double-check your API key configuration or try a simpler search term.")
